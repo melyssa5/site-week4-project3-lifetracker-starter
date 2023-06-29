@@ -4,9 +4,10 @@
   "description": "Express backend for the LifeTracker application",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --ignore 'db/*' server.js",
+    "start": "nodemon --ignore 'db/*' ./lifetracker-api/server.js",
     "dev-win": "set NODE_ENV=dev && nodemon --ignore 'db/*' server.js",
-    "dev": "NODE_ENV=dev nodemon --ignore 'db/*' ./lifetracker-api/server.js"
+    "dev": "NODE_ENV=dev nodemon --ignore 'db/*' ./lifetracker-api/server.js",
+    "setup": "psql -f ./lifetracker-api/lifetracker.sql"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
