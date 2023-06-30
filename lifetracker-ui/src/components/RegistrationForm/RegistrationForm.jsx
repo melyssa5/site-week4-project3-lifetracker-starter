@@ -1,22 +1,52 @@
 import "./RegistrationForm.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export default function RegistrationForm() {
     
   const [form, setForm] = useState({
     firstname: "",
     lastname: "",
+    username: "",
     email: "",
     password: "",
   });
 
   const handleInputChange = (event) => {
+    
     const { name, value } = event.target;
-    setUser((prevUser) => ({
-      ...prevUser,
+    setForm((form) => ({
+      ...form,
       [name]: value,
     }));
   };
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    console.log(form)
+
+    try{
+      let res = await axios.post("http://localhost:3001/auth/register", {
+        firstName: form.firstname,
+        lastName: form.lastname,
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      })
+
+      if (res?.data?.user) {
+        console.log("yayayay")
+
+      }
+
+
+    } catch (error){}
+
+
+  }
+
+
 
   return (
     <div className="registration-form">
@@ -48,7 +78,7 @@ export default function RegistrationForm() {
             <div className="first-name">
               <input
                 className="form-input"
-                name="first-name"
+                name="firstname"
                 placeholder="First name"
                 onChange={handleInputChange}
                 required
@@ -57,7 +87,7 @@ export default function RegistrationForm() {
             <div className="last-name">
               <input
                 className="form-input"
-                name="last-name"
+                name="lastname"
                 placeholder="Last name"
                 onChange={handleInputChange}
                 required
@@ -83,7 +113,7 @@ export default function RegistrationForm() {
               placeholder="Confirm password"
             />
           </div>
-          <button type="submit" className="submit-registration">
+          <button type="submit" className="submit-registration" onClick={handleSubmit}>
             Create Account
           </button>
         </div>

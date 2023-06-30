@@ -19,7 +19,7 @@ class User {
 
   static async register(creds){
     // destructure input info
-    const {email, firstName, lastName, password} = creds
+    const {email, firstName, lastName, password, username} = creds
 
     const existingUserWithEmail = await User.fetchUserByEmail(email)
 
@@ -31,8 +31,8 @@ class User {
     const hashedPassword = await bcrypt.hash(password, salt)
     const normalizedEmail = email.toLowerCase()
 
-    const query = 'INSERT INTO users (firstname, lastname, emailaddress, password) VALUES ($1, $2, $3, $4) RETURNING *;'
-    const { rows } = await pool.query(query, [firstName, lastName, email, hashedPassword])
+    const query = 'INSERT INTO users (first_name, last_name, email, password, username) VALUES ($1, $2, $3, $4, $5) RETURNING *;'
+    const { rows } = await db.query(query, [firstName, lastName, email, hashedPassword,username ])
     return rows[0] // returns info about the user
   }
 
