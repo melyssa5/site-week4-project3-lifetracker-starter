@@ -14,7 +14,6 @@ export default function RegistrationForm() {
   });
 
   const handleInputChange = (event) => {
-    
     const { name, value } = event.target;
     setForm((form) => ({
       ...form,
