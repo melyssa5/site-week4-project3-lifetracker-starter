@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require("../db"); // import the database
-const bcrypt = require("bycrpt");
+const bcrypt = require('bcrypt')
 const { BadRequestError, UnauthorizedError } = require("../utils/errors");
 
 const { BCRYPT_WORK_FACTOR } = require("../config");
@@ -19,7 +19,7 @@ class User {
 
   static async register(creds){
     // destructure input info
-    const {email, firstname, lastname, password} = creds
+    const {email, firstName, lastName, password} = creds
 
     const existingUserWithEmail = await User.fetchUserByEmail(email)
 
@@ -31,27 +31,11 @@ class User {
     const hashedPassword = await bcrypt.hash(password, salt)
     const normalizedEmail = email.toLowerCase()
 
-    const result = await db.query(
-        `INSERT INTO users (
-            password,
-            first_name,
-            last_name,
-            email,
-          )
-          VALUES ($1, $2, $3, $4, $5, $6)
-          RETURNING id,
-                    email,            
-                    first_name AS "firstName", 
-                    last_name AS "lastName",
-                    location,
-                    date
-                    `,
-        [hashedPassword, firstname, lastName, normalizedEmail, location, date]
-      )
-    
-
-
+    const query = 'INSERT INTO users (firstname, lastname, emailaddress, password) VALUES ($1, $2, $3, $4) RETURNING *;'
+    const { rows } = await pool.query(query, [firstName, lastName, email, hashedPassword])
+    return rows[0] // returns info about the user
   }
+
 
   /**
    * Fetch a user in the database by email
@@ -67,3 +51,6 @@ class User {
     return user;
   }
 }
+
+
+module.exports = User

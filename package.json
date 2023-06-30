@@ -8,6 +8,7 @@
     "dev-win": "set NODE_ENV=dev && nodemon --ignore 'db/*' server.js",
     "dev": "NODE_ENV=dev nodemon --ignore 'db/*' ./lifetracker-api/server.js",
     "setup": "psql -f ./lifetracker-api/lifetracker.sql",
+    "server": "cd ./lifetracker-api && nodemon server.js",
     "front": "cd ./lifetracker-ui && yarn dev "
   },
   "dependencies": {
