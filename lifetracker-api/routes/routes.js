@@ -6,32 +6,26 @@ const { UnauthorizedError } = require("../utils/errors")
 const bcrypt = require('bcrypt')
 
 
-router.get("/me", security.requireAuthenticatedUser, async function (req, res, next) {
+// router.get("/me", security.requireAuthenticatedUser, async function (req, res, next) {
+//   try {
+//     const { email } = res.locals.user
+//     const user = await User.fetchUserByEmail(email)
+//     return res.status(200).json({ user })
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
+
+// POST /users/login - authenticate user by email address and password
+router.post('/login', async (req, res, next) => {
   try {
-    const { email } = res.locals.user
-    const user = await User.fetchUserByEmail(email)
-    return res.status(200).json({ user })
+    const userLogin = await User.authenticate(req.body)
+    return res.status(200).json({ userLogin })
   } catch (err) {
     next(err)
   }
 })
-
-
-// POST /users/login - authenticate user by email address and password
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body
-  const user = await User.fetchUserByEmail(email)
-
-    if (user) {
-      // compare hashed password to a new hash from password
-      const isValid = await bcrypt.compare(password, user.password)
-      if (isValid === true) {
-        return res.status(201).json({user})
-      }
-    }
-    throw new UnauthorizedError("Invalid username/password")})
-
-
 
 // POST /register - create a new user
 router.post("/register", async function (req, res, next) {

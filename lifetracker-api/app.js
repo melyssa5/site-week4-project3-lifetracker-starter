@@ -20,6 +20,8 @@ app.use(morgan("tiny"))
 
 app.use("/auth", router)
 
+//app use is the middleware - like front doors
+
 
 // health check
 app.get("/", function (req, res) {

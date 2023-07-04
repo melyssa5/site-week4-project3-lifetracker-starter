@@ -1,13 +1,10 @@
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm"
 
-export default function RegistrationPage(){
-
-    // in this page you will check whether the use is logged in, if they are
-    // render the activity page, if not render the registration form component
+export default function RegistrationPage({setAppState, setLoggedIn}){
     return(
         <div className="registration-page">
             <div className="form-container">
-                <RegistrationForm />
+                <RegistrationForm setAppState={setAppState} setLoggedIn={setLoggedIn} />
             </div>
         </div>
     )

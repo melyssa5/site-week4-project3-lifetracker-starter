@@ -1,8 +1,8 @@
 "use strict";
 
 const db = require("../db"); // import the database
-const bcrypt = require('bcrypt')
-const { SECRET_KEY } = require("../config")
+const bcrypt = require("bcrypt");
+const { SECRET_KEY } = require("../config");
 const { BadRequestError, UnauthorizedError } = require("../utils/errors");
 
 const { BCRYPT_WORK_FACTOR } = require("../config");
@@ -19,6 +19,7 @@ class User {
   static async authenticate(creds) {
     // destructure input info
     const { email, password } = creds;
+    console.log(email);
     const user = await User.fetchUserByEmail(email);
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
@@ -101,9 +102,6 @@ class User {
       return null;
     }
   }
-
-  
 }
 
-
-module.exports = User
+module.exports = User;
