@@ -10,11 +10,12 @@ CREATE TABLE users (
 );
 
 CREATE TABLE nutrition (
-    id VARCHAR(255) NOT NULL,
+    id VARCHAR(255),
     name TEXT NOT NULL,
     category TEXT NOT NULL,
     calories INT NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    email TEXT NOT NULL UNIQUE CHECK (position('@' IN email) > 1)
 );

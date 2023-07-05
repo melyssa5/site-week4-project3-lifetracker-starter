@@ -57,7 +57,7 @@ class User {
     const { rows } = await db.query(query, [
       firstName,
       lastName,
-      email,
+      normalizedEmail,
       hashedPassword,
       username,
     ]);

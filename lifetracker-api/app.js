@@ -4,6 +4,7 @@ const express = require("express"); // importing express object
 const cors = require("cors") // import cors
 const morgan = require("morgan") // import the Morgan middleware for logging
 const router = require("./routes/auth") // import the routes
+const nutritionRouter = require("./routes/nutrition")
 const security = require("./middleware/security")
 
 const app = express() //calling using express in the app as a function
@@ -21,6 +22,7 @@ app.use(morgan("dev"))
 // authorization header. if it does, attach the decoded user to res.locals
 app.use(security.extractUserFromJwt)
 app.use("/auth", router)
+app.use("/nutrition", nutritionRouter)
 
 
 // health check
