@@ -19,13 +19,6 @@ export default function RegistrationForm({ setAppState, setLoggedIn }) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "email") {
-      if (value.indexOf("@") === -1) {
-        setErrors((e) => ({ ...e, email: "Please enter a valid email." }))
-      } else {
-        setErrors((e) => ({ ...e, email: null }))
-      }
-    }
     setForm((form) => ({
       ...form,
       [name]: value,
@@ -35,6 +28,15 @@ export default function RegistrationForm({ setAppState, setLoggedIn }) {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+   
+    if (form.email.indexOf("@") === -1) {
+      setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+      setIsLoading(false);
+      return;
+    } else {
+      setErrors((e) => ({ ...e, email: null }));
+    }
+    
 
     if (form.passwordConfirm !== form.password) {
       setErrors((e) => ({
@@ -80,7 +82,7 @@ export default function RegistrationForm({ setAppState, setLoggedIn }) {
   return (
     <div className="registration-form">
 
-        {errors.form && <span className="error">{errors.form}</span>}
+        {Boolean(errors.form) && <span className="error">{errors.form}</span>}
         <br />
       <form>
         <div className="input-boxes">

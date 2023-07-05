@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
-export default function LoginForm({setAppState}) {
+export default function LoginForm({setAppState, setLoggedIn}) {
   const [user, setUser] = useState({ email: "", password: "" });
-  const navigate = useNavigate()
-  const [errors, setErrors] = useState({})
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false)
 
 
   const handleInputChange = (event) => {
@@ -19,27 +20,35 @@ export default function LoginForm({setAppState}) {
 
   async function handleOnSubmit(event) {
     event.preventDefault();
-    setErrors((e) => ({ ...e, user: null }))
-
+    setIsLoading(true);
 
     try {
       const res = await axios.post(`http://localhost:3001/auth/login`, user);
       if (res?.data) {
-        console.log("you successfully logged in")
-        console.log(res.data)
-        setAppState(res.data)
+        console.log("you successfully logged in :)");
+        setAppState((data) => ({
+          ...data, user: res.data.userLogin
+        }));
+        setIsLoading(false);
+        setLoggedIn(true);
+        navigate("/activity")
       } else {
-        console.log("wrong password")
+        setErrors((e) => ({ ...e, form: "Invalid username/password combination" }));
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
-      
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({...e,form: message ? String(message) : String(err)}));
+      setIsLoading(false);
     }
   }
+
 
   return (
     <div className="login-form">
       <div className="input-div">
+      {Boolean(errors.form) && <span className="error">{errors.form}</span>}
         <form>
           <div>
             <div className="email-input">
@@ -49,6 +58,7 @@ export default function LoginForm({setAppState}) {
                 placeholder="Email"
                 onChange={handleInputChange}
                 className="form-input"
+                value={user.email}
                 required
               />
             </div>
@@ -59,6 +69,7 @@ export default function LoginForm({setAppState}) {
                 placeholder="Password"
                 onChange={handleInputChange}
                 className="form-input"
+                value={user.password}
                 required
               />
             </div>

@@ -1,7 +1,8 @@
 require('dotenv').config() //dotenv package to parse the environment variables from the .env file
 
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3001
-const IS_TESTING = process.env.NODE_ENV === "test"
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
+const IS_TESTING = process.env.NODE_ENV === "test";
+const SECRET_KEY = process.env.SECRET_KEY || "secret";
 
 
 function getDatabaseUri() {
@@ -21,7 +22,8 @@ const BCRYPT_WORK_FACTOR = IS_TESTING ? 1 : 13
 
 
 module.exports = {
-  PORT,
+  PORT, 
+  SECRET_KEY,
   IS_TESTING,
   BCRYPT_WORK_FACTOR,
   getDatabaseUri,

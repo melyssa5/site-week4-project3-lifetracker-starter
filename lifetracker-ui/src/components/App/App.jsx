@@ -49,7 +49,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/register" element={<RegistrationPage setAppState={setAppState} setLoggedIn={setLoggedIn} />}/>
-        <Route path="/login" element={<LoginPage setAppState={setAppState}/>}/>
+        <Route path="/login" element={<LoginPage setAppState={setAppState} setLoggedIn={setLoggedIn}/>}/>
         <Route path="/activity" element= {<ActivityPage />} />
       </Routes>
       </BrowserRouter>
