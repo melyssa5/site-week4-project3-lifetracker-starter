@@ -2,6 +2,7 @@ const db = require("../db");
 const { BadRequestError } = require("../utils/errors");
 
 class Nutrition {
+  
   static async fetchUserByEmail(email) {
     if (!email) {
       throw new BadRequestError(
