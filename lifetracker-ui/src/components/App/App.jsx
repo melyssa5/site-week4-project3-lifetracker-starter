@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar"
 import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage"
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import ActivityPage from "../../pages/ActivityPage/ActivityPage"
+import NutritionPage from "../../pages/NutritionPage/NutritionPage";
 import { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 
@@ -51,6 +52,7 @@ function App() {
         <Route path="/register" element={<RegistrationPage setAppState={setAppState} setLoggedIn={setLoggedIn} />}/>
         <Route path="/login" element={<LoginPage setAppState={setAppState} setLoggedIn={setLoggedIn}/>}/>
         <Route path="/activity" element= {<ActivityPage />} />
+        <Route path="/nutrition" element={<NutritionPage />}/>
       </Routes>
       </BrowserRouter>
     </div>
