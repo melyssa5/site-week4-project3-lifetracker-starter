@@ -64,10 +64,15 @@ export default function RegistrationForm({ setAppState, setLoggedIn }) {
 
       if (res?.data?.user) {
         console.log("you successfully registered");
-        setAppState(res.data);
+        setAppState((prevState) => ({
+          ...prevState,
+          user: res.data.user,
+        }));
+        apiClient.setToken(res.data.token)
         setLoggedIn(true);
         setIsLoading(false);
         navigate("/activity");
+        
       } else {
         setErrors((e) => ({ ...e, form: "Something went wrong with registration" }));
         setIsLoading(false);

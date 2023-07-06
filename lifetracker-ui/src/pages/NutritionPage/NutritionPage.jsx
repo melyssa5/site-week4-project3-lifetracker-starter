@@ -1,6 +1,23 @@
 import "./NutritionPage.css";
+import apiClient from "../../services/apiClient";
 
 export default function NutritionPage({ appState, setAppState }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [nutriInfo, setNutriInfo] = useState({
+    name: "",
+    category: "",
+    quantity: 0,
+    calories: 0,
+    image_url: null
+  });
+
+  
+
+
+
+
+
+
   return (
     <div className="NutritionPage">
       <div className="nutrition-header-div">

@@ -1,11 +1,23 @@
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Navbar({user, loggedIn}) {
+export default function Navbar({loggedIn, setLoggedIn, setAppState}) {
+  const navigate = useNavigate();
+
+
+  const handleLogoutUser = () => {    
+    setLoggedIn(false);
+    setAppState({});
+    localStorage.removeItem('token');
+    navigate("/");
+  }
+
+
+
+
+
   return (
     <nav className="Navbar">
-    
-     
         <div className="nav-pages">
           <Link to="/">
             <img src="https://lifetracker-ui-ai8e.onrender.com/assets/codepath-f1b3e41a.svg"/>
@@ -24,7 +36,10 @@ export default function Navbar({user, loggedIn}) {
 
         <Link to="/register">
               <button className="btn primary" type="button">Register</button>
-        </Link> </div>) : (<button>Sign Out</button>)}
+        </Link> </div>) : (
+          <div className="nav-pages">
+        <button onClick={()=>{handleLogoutUser()}}>Sign Out</button>
+        </div>)}
     
     </nav>
   );

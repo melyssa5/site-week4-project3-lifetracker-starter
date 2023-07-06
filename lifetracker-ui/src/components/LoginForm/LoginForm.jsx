@@ -27,11 +27,12 @@ export default function LoginForm({setAppState, setLoggedIn}) {
       let res = await apiClient.loginUser(user)
       if (res?.data) {
         console.log("you successfully logged in :)");
-        setAppState((data) => ({
-          ...data, user: res.data.userLogin
-        }));
-        setIsLoading(false);
         setLoggedIn(true);
+        setAppState((prevData) => ({
+          ...prevData, user: res.data.user
+        }));
+        apiClient.setToken(res.data.token);
+        setIsLoading(false);
         navigate("/activity")
       } else {
         setErrors((e) => ({ ...e, form: "Invalid username/password combination" }));

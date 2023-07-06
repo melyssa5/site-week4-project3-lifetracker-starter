@@ -11,12 +11,10 @@ class ApiClient {
     localStorage.setItem("token", token);
   }
 
-
   async request({ endpoint, method, data = {} }) {
-
     const url = `${this.remoteHostUrl}/${endpoint}`;
 
-    const headers = { "Content-Type": "application/json" }
+    const headers = { "Content-Type": "application/json" };
 
     if (this.token) {
       headers["Authorization"] = `Bearer ${this.token}`;
@@ -36,7 +34,6 @@ class ApiClient {
     }
   }
 
-
   async loginUser(credentials) {
     return await this.request({
       endpoint: "auth/login",
@@ -44,7 +41,6 @@ class ApiClient {
       data: credentials,
     });
   }
-
 
   async registerUser(credentials) {
     return await this.request({
@@ -54,12 +50,26 @@ class ApiClient {
     });
   }
 
-  fetchUserFromToken = async () => {
+  async fetchUserFromToken() {
     return await this.request({
       endpoint: "auth/me",
       method: "GET",
     });
   }
+
+  async fetchNutritionList() {
+    return this.request({ endpoint: "nutrition", method: "GET" });
+  }
+
+  async addNutritionEntry(nutrition) {
+    return this.request({
+        endpoint: 'nutrition',
+        method: 'POST',
+        data: nutrition,
+    })
+}
+
+
 }
 
 export default new ApiClient("http://localhost:3001");

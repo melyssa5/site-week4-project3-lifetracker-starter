@@ -9,46 +9,41 @@ import ActivityPage from "../../pages/ActivityPage/ActivityPage"
 import NutritionPage from "../../pages/NutritionPage/NutritionPage";
 import SleepPage from "../../pages/SleepPage/SleepPage";
 import { useState, useEffect } from "react";
+import apiClient from "../../services/apiClient";
 import jwtDecode from "jwt-decode";
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [appState, setAppState] = useState({});
- 
-  
-  useEffect(() => {
-    const checkLoggedIn = () => {
-      // check if the user is logged in when the user first accesses the webapp
-      const token = localStorage.getItem("token");
-      if (token) {
-        // decode the stored token
-        const decodedToken = jwtDecode(token);
-        setAppState({ username: decodedToken.userName });
 
-        if (decodedToken.exp * 1000 > Date.now()) {
-          setLoggedIn(true);
-        } else {
-          // token has expired so log out the user
-          handleLogout();
-        }
+
+  useEffect(() => {
+    const checkIfUserIsLoggedIn = async () => {
+      const {data, error} = await apiClient.fetchUserFromToken();
+      if (data) {
+        setLoggedIn(true);
+        setAppState((prevState) => ({
+          ...prevState,
+          user: data.user,
+        }));
       }
     };
-    checkLoggedIn();
-  }, []);
 
+    const token = localStorage.getItem('token');
+    console.log("token", token)
+    if (token) {
+      apiClient.setToken(token);
+      checkIfUserIsLoggedIn();
+    }
+  }, []); 
 
-  // function that handles logging out
-  function handleLogout(){
-    localStorage.removeItem("token");
-    setLoggedIn(false);
-  };
 
 
   return (
     <div className="App">
       <BrowserRouter>
-      <Navbar user={appState.userLogin} loggedIn={loggedIn}/>
+      <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} setAppState={setAppState}/>
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/register" element={<RegistrationPage setAppState={setAppState} setLoggedIn={setLoggedIn} />}/>
