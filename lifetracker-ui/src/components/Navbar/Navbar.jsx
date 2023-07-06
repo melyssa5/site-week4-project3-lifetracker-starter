@@ -4,10 +4,20 @@ import { Link } from "react-router-dom";
 export default function Navbar({user, loggedIn}) {
   return (
     <nav className="Navbar">
-      <div className="nav-labels"></div>
-      <div className="nav-signin">
+    
+     
+        <div className="nav-pages">
+          <Link to="/">
+            <img src="https://lifetracker-ui-ai8e.onrender.com/assets/codepath-f1b3e41a.svg"/>
+          </Link>
+          <Link to="/activity"> Activity </Link>
+          <Link to="/exercise"> Exercise </Link>
+          <Link to="/nutrition"> Nutrition </Link>
+          <Link to="/sleep"> Sleep </Link>
+
+        </div>
         {!loggedIn? (
-        <div>
+        <div className="nav-pages">
         <Link to="/login">
           <button className="btn ghost" type="button">Sign In</button>
         </Link>
@@ -15,7 +25,7 @@ export default function Navbar({user, loggedIn}) {
         <Link to="/register">
               <button className="btn primary" type="button">Register</button>
         </Link> </div>) : (<button>Sign Out</button>)}
-      </div>
+    
     </nav>
   );
 }

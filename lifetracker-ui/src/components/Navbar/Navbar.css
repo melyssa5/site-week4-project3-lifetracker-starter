@@ -10,3 +10,9 @@
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
+
+.nav-pages {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}

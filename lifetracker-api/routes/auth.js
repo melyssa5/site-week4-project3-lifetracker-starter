@@ -29,6 +29,20 @@ router.post("/register", async function (req, res, next) {
     }
   })
 
+
+  router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
+
+    try {
+      const { email } = res.locals.user;
+      const user = await User.fetchUserByEmail(email);
+      const publicUser = User.createPublicUser(user);
+      return res.status(200).json({ user: publicUser });
+  
+    } catch (error) {
+      next(error); 
+    }
+  })
+
 module.exports = router
 
 

@@ -1,7 +1,8 @@
 import "./LoginForm.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
+import apiClient from "../../services/apiClient";
 
 export default function LoginForm({setAppState, setLoggedIn}) {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -23,7 +24,7 @@ export default function LoginForm({setAppState, setLoggedIn}) {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`http://localhost:3001/auth/login`, user);
+      let res = await apiClient.loginUser(user)
       if (res?.data) {
         console.log("you successfully logged in :)");
         setAppState((data) => ({

@@ -8,6 +8,17 @@ const { BadRequestError, UnauthorizedError } = require("../utils/errors");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
 class User {
+
+  // Static method to make a user object
+  static createPublicUser(user) {
+    return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username, 
+    }
+}
+
   /**
    * Authenticate user with email and password
    *

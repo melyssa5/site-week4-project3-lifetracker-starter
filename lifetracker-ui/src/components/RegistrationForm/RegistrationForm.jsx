@@ -2,6 +2,7 @@ import "./RegistrationForm.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import apiClient from "../../services/apiClient";
 
 export default function RegistrationForm({ setAppState, setLoggedIn }) {
   const [form, setForm] = useState({
@@ -50,14 +51,16 @@ export default function RegistrationForm({ setAppState, setLoggedIn }) {
         }
 
     try {
-      // register endpoint using the form information
-      let res = await axios.post("http://localhost:3001/auth/register", {
+      let registrationData = {
         firstName: form.firstName,
         lastName: form.lastName,
         username: form.username,
         email: form.email,
         password: form.password,
-      });
+      };
+
+      let res = await apiClient.registerUser(registrationData);
+
 
       if (res?.data?.user) {
         console.log("you successfully registered");
