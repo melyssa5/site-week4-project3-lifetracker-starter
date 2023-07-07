@@ -3,7 +3,8 @@ const { SECRET_KEY } = require("../config");
 
 const createUserJwt = (user) => {
     const payload = {
-        email: user.email
+        email: user.email,
+        isAdmin: user.isAdmin || false,
     }
 
     return generateToken(payload);

@@ -1,179 +1,120 @@
-import "./RegistrationForm.css";
+import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import apiClient from "../../services/apiClient";
+import "./RegistrationForm.css";
+import ApiClient from "../../services/ApiClient";
+import { useNavigate } from "react-router-dom";  
 
-export default function RegistrationForm({ setAppState, setLoggedIn }) {
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirm: ""
-  });
+const RegistrationForm = ({ isUserLoggedIn, registrationError, setUser, setIsUserLoggedIn, setRegistrationError }) => {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [userFormData, setUserFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        username: "",
+    }); 
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setForm((form) => ({
-      ...form,
-      [name]: value,
-    }));
-  };
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setUserFormData({
+            ...userFormData,
+            [name]: value,
+        });
+    };
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setIsLoading(true);
-   
-    if (form.email.indexOf("@") === -1) {
-      setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
-      setIsLoading(false);
-      return;
-    } else {
-      setErrors((e) => ({ ...e, email: null }));
-    }
-    
-
-    if (form.passwordConfirm !== form.password) {
-      setErrors((e) => ({
-         ...e,
-        passwordConfirm: "Passwords do not match.",
-        }));
-        setIsLoading(false);
-        return;
-        } else {
-          setErrors((e) => ({ ...e, passwordConfirm: null }));
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        handleUserRegistration(userFormData);
+        if (isUserLoggedIn) {
+            setUserFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                username: "",
+            });
         }
-
-    try {
-      let registrationData = {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        username: form.username,
-        email: form.email,
-        password: form.password,
-      };
-
-      let res = await apiClient.registerUser(registrationData);
-
-
-      if (res?.data?.user) {
-        console.log("you successfully registered");
-        setAppState((prevState) => ({
-          ...prevState,
-          user: res.data.user,
-        }));
-        apiClient.setToken(res.data.token)
-        setLoggedIn(true);
-        setIsLoading(false);
-        navigate("/activity");
-        
-      } else {
-        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }));
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
-      setIsLoading(false);
     }
-  }
+
+    const handleUserRegistration = async (userInfo) => {
+        const response = await ApiClient.registerUser(userInfo);
+
+        if (response.data?.user) {
+            setIsUserLoggedIn(true);
+            setUser(response.data.user);
+            ApiClient.setToken(response.data.token);
+            setRegistrationError(null);
+            navigate("/activity");
+        } else {
+            setRegistrationError(response);
+            console.log("registrationError:", response)
+        }
+    };
 
 
 
-  return (
-    <div className="registration-form">
+    return (
+        <div className="registration-page">
+        <div className="registration-form">
+            <span className="chakra-avatar css-3fy9wq">
+          <img
+            src="https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png"
+            className="user-profile-img"
+          ></img>
+        </span>
+        <h2 className="chakra-heading css-3q8efk">Create an Account</h2>
 
-        {Boolean(errors.form) && <span className="error">{errors.form}</span>}
-        <br />
-      <form>
-        <div className="input-boxes">
-          <div className="email-div">
-            <input
-              className="form-input"
-              name="email"
-              type="email"
-              placeholder="Email"
-              onChange={handleInputChange}
-              value={form.email}
-              required
-            />
-             {errors.email && <span className="error">{errors.email}</span>}
-          </div>
+            <form onSubmit={handleFormSubmit}>
+                <div className="form-container">
+                <label htmlFor="name">First Name</label>
+                <input 
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={userFormData.firstName}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="name">Last Name</label>
+                <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={userFormData.lastName}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="username">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={userFormData.username}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="name">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={userFormData.email}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="name">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={userFormData.password}
+                    onChange={handleInputChange}
+                />
+                <button type="submit" className="submit-login">Register</button>
+                </div>
+            </form>
 
-          <div className="username-div">
-            <input
-              className="form-input"
-              name="username"
-              type="text"
-              placeholder="Username"
-              onChange={handleInputChange}
-              value={form.username}
-              required
-            />
-          </div>
-
-          <div className="names-div">
-            <div className="first-name">
-              <input
-                className="form-input"
-                name="firstName"
-                placeholder="First name"
-                onChange={handleInputChange}
-                value={form.firstName}
-                required
-              />
-            </div>
-            <div className="last-name">
-              <input
-                className="form-input"
-                name="lastName"
-                placeholder="Last name"
-                onChange={handleInputChange}
-                value={form.lastName}
-                required
-              />
-            </div>
-          </div>
-          <div className="password-div">
-            <input
-              className="form-input"
-              name="password"
-              type="password"
-              placeholder="Password"
-              onChange={handleInputChange}
-              value={form.password}
-              required
-            />
-          </div>
-
-          <div className="confirm-password-div">
-            <input
-              className="form-input"
-              name="passwordConfirm"
-              type="password"
-              placeholder="Confirm password"
-              onChange={handleInputChange}
-              value={form.passwordConfirm}
-              required
-            />
-            {errors.passwordConfirm && <span className="error">{errors.passwordConfirm}</span>}
-          </div>
-          <button
-            type="submit"
-            className="submit-registration"
-            onClick={handleSubmit}
-          >
-            Create Account
-          </button>
+            {registrationError && <p>{registrationError}</p>}
         </div>
-      </form>
-      </div>
-  )
-}
+        </div>
+    );
+};
+
+export default RegistrationForm;

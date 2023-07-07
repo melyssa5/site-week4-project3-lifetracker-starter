@@ -1,6 +1,92 @@
-.tiles {
+.home {
+  min-width: 48em;
   display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  --chakra-space-y-reverse: 1;
+  --chakra-divide-y-reverse: 1;
+  -webkit-box-align: center;
   align-items: center;
-  width: 100%;
-  gap: 20px;
+  -webkit-box-pack: center;
+  min-height: 500px;
+  padding-inline-start: 2rem;
+  padding-inline-end: 2rem;
+  margin-bottom: 4rem;
+  margin-left: 300px;
+}
+
+.css-lngjhf {
+  align-items: flex-start;
+  width: 40%;
+}
+.css-bgad6s {
+  font-size: 4.5rem;
+  text-align: left;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  line-height: 1;
+  font-weight: 700; 
+  /* bold */
+}
+.cta {
+  font-size: 1.875rem;
+  text-align: left;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  opacity: 0.8;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.css-18rb735 > :not(style) ~ :not(style) {
+  margin-top: 1rem;
+  margin-inline: 0px;
+  margin-bottom: 0px;
+}
+.css-18rb735 > :not(style) ~ :not(style) {
+  margin-top: 1rem;
+  margin-inline: 0px;
+  margin-bottom: 0px;
+}
+.css-uybm84 {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  font-weight: 600;
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 200ms;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  color: black;
+  background: #0BC5EA;
+  border-radius: 8px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
+  line-height: 1;
+}
+.css-uybm84:hover{
+  background-color: #00A3C4;
+}
+/* @media screen and (min-width: 48em) */
+.css-jocq0n {
+  width: 50%;
+  margin-bottom: 0px;
+  min-width: 48em;
+  margin-left: 50px;
+}
+.home-img {
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 500px;
+  height: 300px;
 }

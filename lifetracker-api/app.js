@@ -1,49 +1,53 @@
-/** Express app for Life Tracker */
-
-const express = require("express"); // importing express object
-const cors = require("cors") // import cors
-const morgan = require("morgan") // import the Morgan middleware for logging
-const router = require("./routes/auth") // import the routes
-const nutritionRouter = require("./routes/nutrition")
-const exerciseRouter = require("./routes/exercise")
-const sleepRouter = require("./routes/sleep")
-const security = require("./middleware/security")
-
-const app = express() //calling using express in the app as a function
-
-// --- Setting up Middleware ---
-//app use is the middleware - like front doors
-// enable cross-origin resource sharing for all origins for all requests
-app.use(cors())
-// parse incoming requests with JSON payloads
-app.use(express.json())
-// log requests info
-app.use(morgan("dev"))
-
-// for every request, check if a token exists in the 
-// authorization header. if it does, attach the decoded user to res.locals
-app.use(security.extractUserFromJwt)
-app.use("/auth", router)
-app.use("/nutrition", nutritionRouter)
-app.use("/exercise", exerciseRouter)
-app.use("/sleep", sleepRouter)
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const { PORT } = require('./config');
+const { NotFoundError } = require("./utils/errors"); 
+const security = require("./middleware/security");
+const authRoutes = require('./routes/auth');
+const exerciseRoutes = require('./routes/exercise');
+const nutritionRoutes = require('./routes/nutrition');
+const sleepRoutes = require('./routes/sleep');
+const activityRoutes = require('./routes/activity');
 
 
-// health check
-app.get("/", function (req, res) {
-    return res.status(200).json({
-      ping: "pong",
-    })
-  })
+const app = express();
+app.use(cors());
+app.use(morgan("tiny"));
+app.use(express.json());
+//middleware that checks if JWT token exists and verifies it if it does exist.
+//if they exist, it extracts the user from the jwt token
+//In all the future routes, this helps to know if the request is authenticated or not.
+app.use(security.extractUserFromJwt);
 
+app.use("/auth", authRoutes); 
 
-// handling errors
-app.use((error, req, res, next) => {
-  const status = error.status || 500 ;
-  const message = error.message;
-  return res.status(status).json({ error: message || 'Something went wrong!' })
+app.use("/exercise", exerciseRoutes);
+
+app.use("/nutrition", nutritionRoutes); 
+
+app.use("/sleep", sleepRoutes);
+
+app.use("/activity", activityRoutes);
+
+app.use("/", (req, res, next) => {
+    return res.status(200).json({ ping: "pong" });
 })
 
+// basic error handling route
+app.use((req, res, next) => {
+    return next(new NotFoundError());
+})
+
+
+// basic error handling route
+// case: for when a route is not found or does not exist
+app.use((err, req, res, next) => {
+
+    const status = err.status || 500;
+    const message = err.message;
+    return res.status(status).json({ error: { message, status }})
+})
 
 
 module.exports = app

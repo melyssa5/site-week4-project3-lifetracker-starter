@@ -1,46 +1,74 @@
-import "./Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import "./NavBar.css";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Navbar({loggedIn, setLoggedIn, setAppState}) {
+const NavBar = ({ isUserLoggedIn, setUser, setIsUserLoggedIn }) => {
   const navigate = useNavigate();
 
-
-  const handleLogoutUser = () => {    
-    setLoggedIn(false);
-    setAppState({});
-    localStorage.removeItem('token');
+  const handleLogoutUser = () => {
+    setIsUserLoggedIn(false);
+    setUser({});
+    localStorage.removeItem("token");
     navigate("/");
-  }
-
-
-
-
+  };
 
   return (
-    <nav className="Navbar">
-        <div className="nav-pages">
-          <Link to="/">
-            <img src="https://lifetracker-ui-ai8e.onrender.com/assets/codepath-f1b3e41a.svg"/>
+    <div>
+      <div className="navbar">
+        <div className="css-70qvj9">
+          <Link className="logo" to={"/"}>
+            <img
+              src="https://lifetracker.up.railway.app/assets/codepath-f1b3e41a.svg"
+              alt="logo"
+            ></img>
           </Link>
-          <Link to="/activity"> Activity </Link>
-          <Link to="/exercise"> Exercise </Link>
-          <Link to="/nutrition"> Nutrition </Link>
-          <Link to="/sleep"> Sleep </Link>
-
+          <Link className="chakra-link css-74uit1" to={"/activity"}>
+            Activity
+          </Link>
+          <Link className="chakra-link css-74uit1" to={"/exercise"}>
+            Exercise
+          </Link>
+          <Link className="chakra-link css-74uit1" to={"/nutrition"}>
+            Nutrition
+          </Link>
+          <Link className="chakra-link css-74uit1" to={"/sleep"}>
+            Sleep
+          </Link>
         </div>
-        {!loggedIn? (
-        <div className="nav-pages">
-        <Link to="/login">
-          <button className="btn ghost" type="button">Sign In</button>
-        </Link>
+        <div className="css-70qvj9">
+          {!isUserLoggedIn ? (
+            <>
+            <Link to={"/login"} className="login-button">
+              <button type="button" className="chakra-button css-1t9i4zo">
+                
+                  Sign In
+             
+              </button>   </Link>
 
-        <Link to="/register">
-              <button className="btn primary" type="button">Register</button>
-        </Link> </div>) : (
-          <div className="nav-pages">
-        <button onClick={()=>{handleLogoutUser()}}>Sign Out</button>
-        </div>)}
-    
-    </nav>
+              <Link to={"/register"} className="register-button">
+              <button type="button" className="chakra-button css-td8gbm">
+                
+                  Register
+                
+              </button></Link>
+            </>
+          ) : (
+            <Link to={"/"} className="logout-button">
+            <button
+              type="button"
+              className="css-td8gbm"
+              onClick={handleLogoutUser}
+            >
+              
+                Log Out
+              
+            </button></Link>
+          )}
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default NavBar;

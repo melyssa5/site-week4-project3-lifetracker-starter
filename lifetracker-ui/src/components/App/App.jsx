@@ -1,61 +1,99 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom"
-import "./App.css"
-import Home from "../Home/Home";
-import Navbar from "../Navbar/Navbar"
-import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage"
-import LoginPage from "../../pages/LoginPage/LoginPage";
-import ExercisePage from "../../pages/ExercisePage/ExercisePage"
-import ActivityPage from "../../pages/ActivityPage/ActivityPage"
-import NutritionPage from "../../pages/NutritionPage/NutritionPage";
-import SleepPage from "../../pages/SleepPage/SleepPage";
-import { useState, useEffect } from "react";
-import apiClient from "../../services/apiClient";
-import jwtDecode from "jwt-decode";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import './App.css';
+import ApiClient from '../../services/ApiClient';
+import jwt_decode from 'jwt-decode'
+import LoginForm from '../LoginForm/LoginForm';
+import RegistrationForm from "../RegistrationForm/RegistrationForm";
+import NavBar from '../Navbar/Navbar';
+import Home from '../Home/Home';
+import ActivityPage from '../ActivityPage/ActivityPage';
+import NutritionPage from '../NutritionPage/NutritionPage';
+import ExercisePage from '../ExercisePage/ExercisePage';
+import SleepPage from '../SleepPage/SleepPage';
+import UnauthorizedPage from '../UnauthorizedPage/UnauthorizedPage';
+import PageNotFound from '../PageNotFound/PageNotFound';
+import NutritionForm from '../NutritionForm/NutritionForm';
+import ExerciseForm from '../ExerciseForm/ExerciseForm';
+import SleepForm from '../SleepForm/SleepForm';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [appState, setAppState] = useState({});
 
+  const [appState, setAppState] = useState({
+    user: null,
+    isAuthenticated: false,
+    nutrition: [],
+    sleep: [],
+    exercise: []
+})
+
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false); 
+  const [registrationError, setRegistrationError] = useState(null);
+  const [loginError, setLoginError] = useState(null);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const checkIfUserIsLoggedIn = async () => {
-      const {data, error} = await apiClient.fetchUserFromToken();
+      const {data, error} = await ApiClient.fetchUserFromToken();
       if (data) {
-        setLoggedIn(true);
-        setAppState((prevState) => ({
-          ...prevState,
-          user: data.user,
-        }));
+        setIsUserLoggedIn(true);
+        setUser(data.user);
       }
     };
 
     const token = localStorage.getItem('token');
-    console.log("token", token)
     if (token) {
-      apiClient.setToken(token);
+      ApiClient.setToken(token);
       checkIfUserIsLoggedIn();
     }
   }, []); 
 
+  console.log(user)
+
+
 
 
   return (
-    <div className="App">
-      <BrowserRouter>
-      <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} setAppState={setAppState}/>
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/register" element={<RegistrationPage setAppState={setAppState} setLoggedIn={setLoggedIn} />}/>
-        <Route path="/login" element={<LoginPage setAppState={setAppState} setLoggedIn={setLoggedIn}/>}/>
-        <Route path="/activity" element={<ActivityPage />} />
-        <Route path="/exercise" element={<ExercisePage />}/>
-        <Route path="/nutrition" element={<NutritionPage />}/>
-        <Route path="/sleep" element={<SleepPage />}/>
-      </Routes>
-      </BrowserRouter>
+    <div>
+      <Router>
+        <NavBar isUserLoggedIn={isUserLoggedIn} setUser={setUser} setIsUserLoggedIn={setIsUserLoggedIn} />
+        <main>
+          <div>
+            <Routes>
+              <Route path="/login" element={!isUserLoggedIn ? 
+                  (<LoginForm 
+                    loginError={loginError} 
+                    setLoginError={setLoginError}
+                    isUserLoggedIn={isUserLoggedIn} 
+                    setIsUserLoggedIn={setIsUserLoggedIn} 
+                    setUser={setUser}
+                    user={user}
+                    />) : (<></>)} />
+              <Route path="/register" 
+                element=
+                {<RegistrationForm 
+                  setUser={setUser}
+                  isUserLoggedIn={isUserLoggedIn} 
+                  setIsUserLoggedIn={setIsUserLoggedIn}
+                  setRegistrationError={setRegistrationError}
+                  registrationError={registrationError} />} /> 
+              <Route path="/activity" element={!isUserLoggedIn ? (<UnauthorizedPage />): <ActivityPage />} />
+              <Route path="/nutrition" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<NutritionPage user={user}/>)}  />
+              <Route path="/nutrition/create" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<NutritionForm user={user} />)}  />
+              <Route path="/sleep" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<SleepPage user={user} />)} />
+              <Route path="/sleep/create" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<SleepForm user={user} />)}  />
+              <Route path="/exercise" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<ExercisePage user={user} />)} />
+              <Route path="/exercise/create" element={!isUserLoggedIn ? (<UnauthorizedPage />) : (<ExerciseForm user={user} />)}  />
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </div>
+        </main>
+      </Router>
     </div>
-  );
+  )
 }
 
 export default App

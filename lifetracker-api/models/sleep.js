@@ -3,21 +3,26 @@ const { BadRequestError } = require("../utils/errors");
 
 class Sleep {
 
-    static async fetchUserByEmail(email) {
-        if (!email) {
-          throw new BadRequestError(
-            "Required field -- user email -- is missing from the request body"
-          );
+    static async fetchUserEmail(userID) {
+        if (!userID) {
+            throw new BadRequestError(`Required field - userID - missing from request body.`); 
         }
-        const result = await db.query(`SELECT * FROM users WHERE email = $1`, [
-          email.toLowerCase(),
-        ]);
-        const user = result.rows[0];
-        return user;
-      }
 
-    static async createSleep(sleep, email) {
+        const results = await db.query(
+            `
+            SELECT email FROM users
+            WHERE id = $1`, 
+            [
+                userID
+            ]
+        ); 
 
+        return results.rows[0];
+    }
+
+    static async createSleep(sleep, userID) {
+
+        sleep = sleep.sleepInfo;
         const requiredFields = ["start_time", "end_time"];
 
         requiredFields.forEach((field) => {
@@ -26,21 +31,22 @@ class Sleep {
             }
         }); 
 
-        if (!email) {
+        if (!userID) {
             throw new BadRequestError(`Required field - userID - missing from request body.`)
         }
 
-        const userEmail = await Sleep.fetchUserByEmail(email);
+        const userEmail = await Sleep.fetchUserEmail(userID);
 
         const results = await db.query(
             `
-            INSERT INTO sleep (start_time, end_time, user_email)
-            VALUES ($1, $2, $3)
-            RETURNING *;
+            INSERT INTO sleep (start_time, end_time, user_id, user_email)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, start_time, end_time, user_id;
             `, 
             [
                 sleep.start_time,
                 sleep.end_time,
+                userID,
                 userEmail.email
             ]
         ); 
@@ -48,20 +54,20 @@ class Sleep {
         return results.rows[0];
     }
 
-    static async fetchAllSleepByEmail(email) {
+    static async fetchAllSleepByUserID(userID) {
 
-        if (!email) {
+        if (!userID) {
             throw new BadRequestError(`Required field - userID - missing from request body.`)
         }
 
         const results = await db.query(
             `
             SELECT * FROM sleep
-            WHERE user_email = $1
+            WHERE user_id = $1
             ORDER BY start_time DESC;
             `, 
             [
-                email
+                userID
             ]
         ); 
 

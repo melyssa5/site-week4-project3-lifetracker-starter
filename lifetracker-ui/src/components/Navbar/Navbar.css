@@ -1,8 +1,12 @@
-.Navbar {
+html {
+  display: block
+}
+
+.navbar {
   display: flex;
   margin: 0px auto;
   max-width: 1310px;
-  padding-top: 50px;
+  padding-top: 20px;
   padding-inline: 20px;
   height: 70px;
   -webkit-box-align: center;
@@ -10,9 +14,141 @@
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-
-.nav-pages {
+.css-70qvj9 {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
+}
+.logo {
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  color: inherit;
+  margin-right: 50px;
+}
+.css-74uit1 {
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  margin-right: 50px;
+  opacity: 0.7;
+  color: #00A3C4;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.css-1t9i4zo {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  line-height: 1.2;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 200ms;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
+  border: 1px solid currentcolor;
+  color: #00A3C4;
+  background: transparent;
+  margin-right: 20px;
+}
+
+.login-button{
+  text-decoration: none;
+  color: #00A3C4;
+}
+.css-1t9i4zo:hover{
+  background-color: #CFEDFB;
+}
+.register-button{
+  text-decoration: none;
+  color: white;
+}
+.css-td8gbm:hover{
+  background-color: #00A3C4;
+}
+.log-out-button{
+  text-decoration: none;
+  color: white;
+}
+.log-out-button:hover{
+  background-color: #00A3C4;
+  color: white
+}
+
+
+
+.css-td8gbm {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  line-height: 1.2;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 200ms;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
+  background: #0BC5EA;
+  color: black;
+}
+
+.logout-button {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  line-height: 1.2;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+  transition-duration: 200ms;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
+  background: #0BC5EA;
+  color: black;
 }

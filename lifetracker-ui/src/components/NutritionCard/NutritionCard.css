@@ -1,0 +1,107 @@
+
+
+.nutrition-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    width: 100%;
+  }
+  .nutrition-date {
+    font-size: 0.875rem;
+    color: #022b69;
+  }
+  .css-56yjmq {
+    display: flex;
+    margin-bottom: 2.5rem;
+  }
+  .css-en15ln {
+    border-radius: 9999px;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    position: relative;
+    flex-shrink: 0;
+    /* background: rgb(random(255), random(255), random(255)); */
+    font-size: calc(3rem / 2.5);
+    color: white;
+    border-color: white;
+    vertical-align: top;
+    width: 3rem;
+    height: 3rem;
+    --avatar-border-color: white;
+    --avatar-size: 3rem;
+    --avatar-font-size: calc(3rem / 2.5);
+  }
+  .css-1ebyn6 {
+    font-size: calc(3rem / 2.5);
+    line-height: 1;
+  }
+  .css-1kw2fa0 {
+    margin-left: 0.75rem;
+  }
+  .css-y5314g {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      font-weight: 2.25rem;
+      
+      color: white;
+  }
+  .nutrition-category {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding-inline-start: 0.25rem;
+    padding-inline-end: 0.25rem;
+    text-transform: uppercase;
+    border-radius: 0.125rem;
+    font-weight: 2.25rem;
+    background: #C6F6D5;
+    color: #22543D;
+    margin-left: 0.25rem;
+    font-size: 0.9rem;
+  }
+  .css-1lekzkb {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+  }
+  .nutrition-calories {
+    position: relative;
+    flex: 1 1 0%;
+  }
+  .nutrition-quantity{
+    position: relative;
+    flex: 1 1 0%;
+  }
+  .css-14go5ty {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+  .css-1axeus7 {
+    vertical-align: baseline;
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-variant-numeric: proportional-nums;
+  }
+  
+  .css-2plr3x {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    padding-inline-start: 2.5rem;
+    padding-inline-end: 2.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    background-color: #81b3fa;
+  }

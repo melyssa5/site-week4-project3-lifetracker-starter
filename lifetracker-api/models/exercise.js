@@ -3,23 +3,26 @@ const { BadRequestError } = require("../utils/errors");
 
 class Exercise {
 
-    static async fetchUserByEmail(email) {
-        if (!email) {
-          throw new BadRequestError(
-            "Required field -- user email -- is missing from the request body"
-          );
+    static async fetchUserEmail(userID) {
+        if (!userID) {
+            throw new BadRequestError(`Required field - userID - missing from request body.`); 
         }
-        const result = await db.query(`SELECT * FROM users WHERE email = $1`, [
-          email.toLowerCase(),
-        ]);
-        const user = result.rows[0];
-        return user;
-      }
 
+        const results = await db.query(
+            `
+            SELECT email FROM users
+            WHERE id = $1`, 
+            [
+                userID
+            ]
+        ); 
 
+        return results.rows[0];
+    }
 
-    static async createExercise(exercise, email) {
-
+    static async createExercise(exercise, userID) {
+        exercise = exercise.exerciseInfo; 
+        console.log("exercise", exercise);
         const requiredFields = ["name", "category", "duration", "intensity"];
 
         requiredFields.forEach((field) => {
@@ -28,23 +31,24 @@ class Exercise {
             }
         });
 
-        if (!email) {
-            throw new BadRequestError(`Required field - email - missing from request body.`)
+        if (!userID) {
+            throw new BadRequestError(`Required field - exerciseID - missing from request body.`)
         }
 
-        const userEmail = await Exercise.fetchUserByEmail(email);
+        const userEmail = await Exercise.fetchUserEmail(userID);
 
         const results = await db.query(
             `
-            INSERT INTO exercise (name, category, duration, intensity, user_email)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *;
+            INSERT INTO exercise (name, category, duration, intensity, user_id, user_email)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id, name, category, duration, intensity, user_id;
             `,
             [
                 exercise.name,
                 exercise.category,
                 exercise.duration,
                 exercise.intensity,
+                userID, 
                 userEmail.email
             ]
         );
@@ -52,18 +56,18 @@ class Exercise {
         return results.rows[0];
     }
 
+    static async fetchAllExercisesByUserID(userID) {
 
-    static async fetchAllExercisesByEmail(email) {
-        if (!email) {
-            throw new BadRequestError(`Required field - email - missing from request body.`); 
+        if (!userID) {
+            throw new BadRequestError(`Required field - userID - missing from request body.`); 
         }
 
         const results = await db.query(
             `
             SELECT * FROM exercise
-            WHERE user_email = $1
+            WHERE user_id = $1
             `, 
-            [email]
+            [userID]
         ); 
 
         return results.rows;
