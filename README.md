@@ -21,6 +21,11 @@ By the end of this project you will be able to...
 
 ## Application Features
 
+## LOOM VIDEO
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/04cea44ebf374926a26abd2ab6f6d955?sid=796cc81d-aad8-4574-aeac-003c6d8fd02e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+
+
 ### Core Features
 
 - [ ] **The Landing Page:** Display a large hero image and a brief blurb on what this application is about. *Note:* This is the only page that unauthenticated users should be able to view.
