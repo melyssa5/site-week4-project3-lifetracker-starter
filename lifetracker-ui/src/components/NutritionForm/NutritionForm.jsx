@@ -6,13 +6,12 @@ import "./NutritionForm.css"
 
 
 const NutritionForm = ({ user }) => {
-    console.log(user)
 
     const navigate = useNavigate();
     const [newNutritionData, setNewNutritionData] = useState({
-        name: "",
-        category: "",
-        calories: 0,
+        nutritionName: "",
+        nutritionCategory: "",
+        calories: null,
         imageUrl: "",
         quantity: 1,
     }); 
@@ -23,29 +22,16 @@ const NutritionForm = ({ user }) => {
             ...prevNewNutritionData,
             [name]: value,
         }));
-
+        console.log(event.target.value)
         console.log("newNutritionData:", newNutritionData)
     }
 
 
     const handleAddNutritionFormSubmit = (event) => {
         event.preventDefault(); 
-        const nutritionName = newNutritionData.name;
-        const nutritionCategory = newNutritionData.category;
-        const calories = newNutritionData.calories;
-        const imageUrl = newNutritionData.imageUrl;
-        const quantity = newNutritionData.quantity;
-        const nutritionInfo = {
-            nutritionName: nutritionName,
-            nutritionCategory: nutritionCategory,
-            calories: calories,
-            imageUrl: imageUrl,
-            quantity: quantity,
-            
-        }
-
+  
         const params = {
-            nutritionInfo: nutritionInfo,
+            nutritionInfo: newNutritionData,
             userID: user.id,
         }; 
 
@@ -56,6 +42,8 @@ const NutritionForm = ({ user }) => {
         })
     }
 
+
+
     return (
         <div className="nutrition-form">
             <h2 className="nutrition-heading">Record Nutrition</h2>
@@ -65,18 +53,15 @@ const NutritionForm = ({ user }) => {
                 <label htmlFor="name">Name:</label>
                 <input
                     type="text"
-                    name="name"
+                    name="nutritionName"
                     id="name"
                     value={newNutritionData.name}
                     onChange={handleNewNutritionInputChange}
+                    required
                 />
                 <label htmlFor="category">Category:</label>
-                <select name="category" value={newNutritionData.category} onChange={(e) =>
-                        setNewNutritionData((prevState) => ({
-                          ...prevState,
-                          category: e.target.value,
-                        }))}>
-                    <option value="default" selected disabled hidden>Select a category</option>
+                <select name="nutritionCategory" value={newNutritionData.category} onChange={handleNewNutritionInputChange} required>
+                    <option value="">Select a Category</option>
                     <option value="Snack">Snack</option>
                     <option value="Beverage">Beverage</option>
                     <option value="Food">Food</option>
@@ -88,6 +73,8 @@ const NutritionForm = ({ user }) => {
                     id="calories"
                     value={newNutritionData.calories}
                     onChange={handleNewNutritionInputChange}
+                    step="10"
+                    required
                 />
                 <label htmlFor="quantity">Quantity:</label>
                 <input

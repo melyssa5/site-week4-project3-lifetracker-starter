@@ -1,6 +1,12 @@
 import React from "react";
 import "./NutritionCard.css";
 
+
+/**
+ * NutritionCard component that takes in a component containing information 
+ * from a nutrition form submission and creates the card for it.
+ */
+
 const NutritionCard = ({ nutrition }) => {
   console.log("nutrition in NutritionCard:", nutrition);
 
@@ -10,7 +16,7 @@ const NutritionCard = ({ nutrition }) => {
   }
 
   return (
-    <div>
+
       <div className="nutrition-card">
         <span className="nutrition-date">
           Today at {timestamp(nutrition.created_at)}
@@ -53,7 +59,7 @@ const NutritionCard = ({ nutrition }) => {
           </div>
         </div>
       </div>
-    </div>
+ 
   );
 };
 
